@@ -23,6 +23,7 @@ module RubyLLM
       with_model(model_id, provider: provider, assume_exists: assume_model_exists)
       @connection = context ? context.connection_for(@provider) : @provider.connection(config)
       @temperature = 0.7
+      @json_mode = false
       @messages = []
       @tools = {}
       @on = {
@@ -82,6 +83,16 @@ module RubyLLM
       self
     end
 
+    def with_json_mode
+      @json_mode = true
+      self
+    end
+
+    def with_text_mode
+      @json_mode = false
+      self
+    end
+
     def on_new_message(&block)
       @on[:new_message] = block
       self
@@ -103,6 +114,7 @@ module RubyLLM
         tools: @tools,
         temperature: @temperature,
         model: @model.id,
+        json_mode: @json_mode,
         connection: @connection,
         &
       )

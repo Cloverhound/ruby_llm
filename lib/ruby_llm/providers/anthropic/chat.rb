@@ -11,7 +11,7 @@ module RubyLLM
           '/v1/messages'
         end
 
-        def render_payload(messages, tools:, temperature:, model:, stream: false)
+        def render_payload(messages, tools:, temperature:, model:, json_mode: false, stream: false) # rubocop:disable Metrics/ParameterLists, Lint/UnusedMethodArgument
           system_messages, chat_messages = separate_messages(messages)
           system_content = build_system_content(system_messages)
 

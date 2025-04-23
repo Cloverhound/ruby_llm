@@ -204,6 +204,29 @@ puts response2.content
 
 You can set the temperature using `with_temperature`, which returns the `Chat` instance for chaining.
 
+## JSON Mode
+
+Enable JSON output for models that support it. This ensures the model's response is a valid JSON string, making it easier to parse and use programmatically.
+
+```ruby
+# Choose a model supporting JSON mode
+chat = RubyLLM.chat(model: 'gpt-4o')
+
+# Ask for JSON output
+json_chat = chat.with_json_mode
+json_chat.ask "Give me user data as JSON: name: Ed, age: 30"
+
+# The response content will be a JSON string
+puts response.content
+# => {"name": "Ed", "age": 30}
+
+# You can easily parse it
+data = JSON.parse(response.content)
+puts data["name"] # => Ed
+```
+
+## Access Token Usage
+
 ## Tracking Token Usage
 
 Understanding token usage is important for managing costs and staying within context limits. Each `RubyLLM::Message` returned by `ask` includes token counts.

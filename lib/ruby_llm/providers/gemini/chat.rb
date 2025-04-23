@@ -9,14 +9,13 @@ module RubyLLM
           "models/#{@model}:generateContent"
         end
 
-        def render_payload(messages, tools:, temperature:, model:, stream: false) # rubocop:disable Lint/UnusedMethodArgument
+        def render_payload(messages, tools:, temperature:, model:, json_mode: false, stream: false) # rubocop:disable Lint/UnusedMethodArgument, Metrics/ParameterLists
           @model = model # Store model for completion_url/stream_url
           payload = {
             contents: format_messages(messages),
-            generationConfig: {
-              temperature: temperature
-            }
+            generationConfig: generation_config
           }
+          generation_config[:response_mime_type] = 'application/json' if json_mode
           payload[:tools] = format_tools(tools) if tools.any?
           payload
         end
